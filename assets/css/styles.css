@@ -92,13 +92,13 @@
 }
 
 .bot-message {
-  background-color: var(--first-color);
-  color: #121212;
+  background-color:#121212;
+  color: white;
   float: left;
 }
 
 .user-message {
-  background-color: white;
+  background-color: var(--first-color);
   color: white;
   float: right;
 }
