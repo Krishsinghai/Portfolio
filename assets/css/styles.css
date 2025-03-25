@@ -50,7 +50,7 @@
 }
 
 .chat-header {
-  background-color: var(--first-color);
+  background-color: white;
   color: white;
   padding: 10px;
   text-align: center;
@@ -98,7 +98,7 @@
 }
 
 .user-message {
-  background-color: var(--first-color);
+  background-color: white;
   color: white;
   float: right;
 }
