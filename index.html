@@ -79,6 +79,25 @@
                 </div>
             </section>
 
+            <!-- chatbot -->
+            <section>
+                <button class="chat-toggle" onclick="toggleChat()">
+                    <img class="chat-toggle-logo" src="./images/chatbot-logo.png" alt="">
+                </button>
+            
+                <div class="chatbot-container" id="chatbot">
+                    <div class="chat-header">Chatter Box!
+                        <span class="close-btn" onclick="closeChat()">X</span>
+                    </div>
+                    <div class="chat-body" id="chat-body">
+                        <div class="chat-message bot-message">Hello! I'm Nishant...</div>
+                    </div>
+                    <div class="chat-footer">
+                        <input id="chat-input" type="text" placeholder="Type a message...">
+                        <button onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </section>
             <!--===== SKILLS =====-->
             <section class="skills section" id="skills">
                 <h2 class="section-title">Skills</h2>
@@ -225,7 +244,59 @@
 
         <!--===== SCROLL REVEAL =====-->
         <script src="https://unpkg.com/scrollreveal"></script>
+        <script>
+		function toggleChat() {
+			const chat = document.getElementById("chatbot");
+			chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+		}
 
+		function closeChat() {
+			document.getElementById("chatbot").style.display = "none";
+		}
+
+		async function sendMessage() {
+			const inputField = document.getElementById("chat-input");
+			let input = inputField.value.trim();
+			if (input === "") return;
+
+			addChat("user", input);
+			inputField.value = "";
+
+			try {
+				const response = await fetch("https://myportfolio-chatbot.onrender.com", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ question: input })
+				});
+
+				if (!response.ok) {
+					throw new Error(`Server Error: ${response.statusText}`);
+				}
+
+				const data = await response.json();
+				addChat("bot", data.response || "I'm here to help!");
+			} catch (error) {
+				console.error("Error communicating with chatbot:", error);
+				addChat("bot", "Sorry, I couldn't process that. Try again.");
+			}
+		}
+
+		function addChat(sender, message) {
+			const chatBody = document.getElementById("chat-body");
+			const messageDiv = document.createElement("div");
+			messageDiv.classList.add("chat-message", sender === "user" ? "user-message" : "bot-message");
+			messageDiv.textContent = message;
+			chatBody.appendChild(messageDiv);
+			chatBody.scrollTop = chatBody.scrollHeight;
+		}
+
+		document.getElementById("chat-input").addEventListener("keypress", function (event) {
+			if (event.key === "Enter") sendMessage();
+		});
+	</script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
+
+	</script>
         <!--===== MAIN JS =====-->
         <script src="assets/js/main.js"></script>
     </body>
