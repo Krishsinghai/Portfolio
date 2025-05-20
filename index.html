@@ -263,7 +263,7 @@
 			inputField.value = "";
 
 			try {
-				const response = await fetch("https://krish-portfolio-chatbot.up.railway.app:8080", {
+				const response = await fetch("https://portfolio-chatbot-production-78ef.up.railway.app", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ question: input })
